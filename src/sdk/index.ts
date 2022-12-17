@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Article, ArticleFilters } from "../index.d";
+import { Article, ArticleFilters, ClientSDK as cSDK } from "../index.d";
 
 interface Cache {
   posts?: Array<Article>;
@@ -14,7 +14,7 @@ const _header = (key: string = "") => {
   };
 };
 
-export class Helper {
+export class ClientSDK implements cSDK {
   private cache: Cache = { lastUpdated: 0 };
   private ENDPOINT = "https://cms.backend.pyvot360.com";
 
@@ -43,7 +43,7 @@ export class Helper {
 
   async getOne(articleId: string) {
     if (this.cache.posts && !this.isCacheExpired()) {
-      return this.cache.posts?.filter((p) => p.id === articleId);
+      return this.cache.posts?.filter((p) => p.id === articleId)[0] || [];
     }
     const response = await axios.post(
       `${this.ENDPOINT}/article/get`,
@@ -84,7 +84,9 @@ export class Helper {
     return topics;
   }
 
-  async search({ title, tag, author }: ArticleFilters) {
+  async search(filters: ArticleFilters) {
+    const { title, tag, author } = filters;
+
     const response = await axios.get(
       `${this.ENDPOINT}/article/search?${title ? `title=${title}&` : ""}${
         tag ? `topic=${tag}&` : ""

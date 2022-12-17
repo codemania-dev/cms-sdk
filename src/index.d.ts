@@ -30,3 +30,11 @@ export declare interface ArticleFilters {
     author?: string;
 }
 
+export declare class ClientSDK {
+    constructor(key: string);
+    getAll():  Promise<Article[]>;
+    getOne(articleId: string): Promise<Article | undefined>;
+    getTopics(): Promise<string[]>;
+    search(filters: ArticleFilters): Promise<Article[]>;
+    viewed(articleId: string);
+}
