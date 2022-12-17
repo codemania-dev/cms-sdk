@@ -1,0 +1,23 @@
+{
+  "name": "cms-sdk",
+  "version": "1.0.0",
+  "repository": "git@github.com:codemania-dev/cms-sdk.git",
+  "author": "Jeremiah Faluyi <faluyijeremiah2018@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "cms",
+    "content management",
+    "pyvot360",
+    "article",
+    "blog",
+    "sdk"
+  ],
+  "private": true,
+  "dependencies": {
+    "axios": "^1.2.1"
+  },
+  "devDependencies": {
+    "tslib": "^2.4.1",
+    "typescript": "^4.9.4"
+  }
+}
