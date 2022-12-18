@@ -44,7 +44,7 @@ var ClientSDK = (function () {
             });
         });
     };
-    ClientSDK.prototype.getOne = function (articleId) {
+    ClientSDK.prototype.getById = function (articleId) {
         var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var response;
@@ -71,6 +71,33 @@ var ClientSDK = (function () {
             });
         });
     };
+    ClientSDK.prototype.getByUrl = function (articleUrl) {
+        var _a;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var response;
+            return tslib_1.__generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        if (this.cache.posts && !this.isCacheExpired()) {
+                            return [2, ((_a = this.cache.posts) === null || _a === void 0 ? void 0 : _a.filter(function (p) { return p.url === articleUrl; })[0]) || []];
+                        }
+                        return [4, axios_1.default.post("".concat(this.ENDPOINT, "/article/get"), {
+                                url: articleUrl,
+                            }, {
+                                headers: _header(this.key),
+                                validateStatus: function (status) {
+                                    return status < 505;
+                                },
+                            })];
+                    case 1:
+                        response = _b.sent();
+                        if (response.status !== 200)
+                            return [2];
+                        return [2, Object.values(response.data)[0]];
+                }
+            });
+        });
+    };
     ClientSDK.prototype.getTopics = function () {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var response, topics;
@@ -80,7 +107,7 @@ var ClientSDK = (function () {
                         if (this.cache.topics && !this.isCacheExpired()) {
                             return [2, this.cache.topics];
                         }
-                        return [4, axios_1.default.get("".concat(this.ENDPOINT, "/article/get-topics"), {
+                        return [4, axios_1.default.get("".concat(this.ENDPOINT, "/article/topics"), {
                                 headers: _header(this.key),
                                 validateStatus: function (status) {
                                     return status < 505;
@@ -143,7 +170,7 @@ var ClientSDK = (function () {
         });
     };
     ClientSDK.prototype.isCacheExpired = function () {
-        return (Date.now() - this.cache.lastUpdated) / (1000 * 60 * 60) > 5;
+        return (Date.now() - this.cache.lastUpdated) / (1000 * 60) > 15;
     };
     return ClientSDK;
 }());

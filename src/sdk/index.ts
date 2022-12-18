@@ -41,7 +41,7 @@ export class ClientSDK implements cSDK {
     return posts;
   }
 
-  async getOne(articleId: string) {
+  async getById(articleId: string) {
     if (this.cache.posts && !this.isCacheExpired()) {
       return this.cache.posts?.filter((p) => p.id === articleId)[0] || [];
     }
@@ -63,12 +63,34 @@ export class ClientSDK implements cSDK {
     return Object.values(response.data)[0] as Article;
   }
 
+  async getByUrl(articleUrl: string) {
+    if (this.cache.posts && !this.isCacheExpired()) {
+      return this.cache.posts?.filter((p) => p.url === articleUrl)[0] || [];
+    }
+    const response = await axios.post(
+      `${this.ENDPOINT}/article/get`,
+      {
+        url: articleUrl,
+      },
+      {
+        headers: _header(this.key),
+        validateStatus: function (status) {
+          return status < 505; // Resolve only if the status code is less than 500
+        },
+      }
+    );
+
+    if (response.status !== 200) return;
+
+    return Object.values(response.data)[0] as Article;
+  }
+
   async getTopics() {
     if (this.cache.topics && !this.isCacheExpired()) {
       return this.cache.topics;
     }
 
-    const response = await axios.get(`${this.ENDPOINT}/article/get-topics`, {
+    const response = await axios.get(`${this.ENDPOINT}/article/topics`, {
       headers: _header(this.key),
       validateStatus: function (status) {
         return status < 505; // Resolve only if the status code is less than 500
@@ -122,6 +144,6 @@ export class ClientSDK implements cSDK {
   }
 
   private isCacheExpired() {
-    return (Date.now() - this.cache.lastUpdated) / (1000 * 60 * 60) > 5;
+    return (Date.now() - this.cache.lastUpdated) / (1000 * 60) > 15;
   }
 }
