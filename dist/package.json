@@ -1,6 +1,6 @@
 {
-  "name": "cms-sdk",
-  "version": "1.0.0",
+  "name": "@pyvot360/cms",
+  "version": "1.0.1",
   "repository": "git@github.com:codemania-dev/cms-sdk.git",
   "author": "Jeremiah Faluyi <faluyijeremiah2018@gmail.com>",
   "license": "MIT",
@@ -15,11 +15,11 @@
   "bugs": {
     "url": "https://github.com/codemania-dev/cms-sdk/issues"
   },
+  "description": "Client SDK for CMS360",
   "homepage": "https://github.com/codemania-dev/cms-sdk/#readme",
   "scripts": {
-  "compile": "tsc && cp package.json ./dist/cms/ && cp ./src/index.d.ts ./dist/cms && cp README.md ./dist"
+  "compile": "tsc && cp package.json ./dist && cp ./src/index.d.ts ./dist && cp README.md ./dist"
   },
-  "private": true,
   "dependencies": {
     "axios": "^1.2.1"
   },
