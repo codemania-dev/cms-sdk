@@ -55,7 +55,9 @@ var ClientSDK = (function () {
                             return [2, ((_a = this.cache.posts) === null || _a === void 0 ? void 0 : _a.filter(function (p) { return p.id === articleId; })[0]) || []];
                         }
                         return [4, axios_1.default.post("".concat(this.ENDPOINT, "/article/get"), {
-                                id: articleId,
+                                filter: {
+                                    id: articleId,
+                                },
                             }, {
                                 headers: _header(this.key),
                                 validateStatus: function (status) {
@@ -82,7 +84,9 @@ var ClientSDK = (function () {
                             return [2, ((_a = this.cache.posts) === null || _a === void 0 ? void 0 : _a.filter(function (p) { return p.url === articleUrl; })[0]) || []];
                         }
                         return [4, axios_1.default.post("".concat(this.ENDPOINT, "/article/get"), {
-                                url: articleUrl,
+                                filter: {
+                                    url: articleUrl,
+                                },
                             }, {
                                 headers: _header(this.key),
                                 validateStatus: function (status) {

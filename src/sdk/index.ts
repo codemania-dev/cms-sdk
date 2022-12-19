@@ -48,7 +48,9 @@ export class ClientSDK implements cSDK {
     const response = await axios.post(
       `${this.ENDPOINT}/article/get`,
       {
-        id: articleId,
+        filter: {
+          id: articleId,
+        },
       },
       {
         headers: _header(this.key),
@@ -70,7 +72,9 @@ export class ClientSDK implements cSDK {
     const response = await axios.post(
       `${this.ENDPOINT}/article/get`,
       {
-        url: articleUrl,
+        filter: {
+          url: articleUrl,
+        },
       },
       {
         headers: _header(this.key),
